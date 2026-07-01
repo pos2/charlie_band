@@ -1,0 +1,59 @@
+{
+  "tracks": {
+    "Vocals": {
+      "threshold": 0.035,
+      "activityScale": 1,
+      "position": {
+        "left": 37.29731721698113,
+        "top": 50.87451720505618
+      },
+      "size": {
+        "width": 16.99882075471698
+      }
+    },
+    "Drums": {
+      "threshold": 0.035,
+      "activityScale": 1,
+      "position": {
+        "left": 23.558372641509433,
+        "top": 35.43385709269663
+      },
+      "size": {
+        "width": 16.86099646226415
+      }
+    },
+    "Guitar": {
+      "threshold": 0.035,
+      "activityScale": 1,
+      "position": {
+        "left": 13.740418632075471,
+        "top": 58.11205231741573
+      },
+      "size": {
+        "width": 10.706810141509433
+      }
+    },
+    "Bass": {
+      "threshold": 0.035,
+      "activityScale": 1,
+      "position": {
+        "left": 72.8294516509434,
+        "top": 53.94904318820225
+      },
+      "size": {
+        "width": 14.522405660377357
+      }
+    },
+    "Other": {
+      "threshold": 0.008,
+      "activityScale": 1,
+      "position": {
+        "left": 57.21329599056604,
+        "top": 45.764571629213485
+      },
+      "size": {
+        "width": 10.924233490566039
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Band Performance Maker</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./performance.css" />
+  </head>
+  <body data-mode="make">
+    <main class="performance-shell">
+      <section id="uploadPanel" class="upload-panel">
+        <form id="uploadForm" class="upload-form">
+          <strong>上传音频</strong>
+          <input id="audioFile" type="file" accept="audio/*" required />
+          <label class="upload-field">
+            <span>变声模型</span>
+            <select id="rvcModelSelect" name="rvc_model">
+              <option value="Charlie Brown.pth">Charlie Brown</option>
+            </select>
+          </label>
+          <button type="submit">开始处理</button>
+          <span id="processStatus">等待上传</span>
+        </form>
+      </section>
+
+      <section id="bandApp" class="app is-hidden">
+        <section class="stage" aria-label="Band stage">
+          <div class="stage-light stage-light-left"></div>
+          <div class="stage-light stage-light-right"></div>
+          <div class="stage-actions">
+            <button id="editStage" class="stage-action" type="button">编辑舞台</button>
+            <button id="saveStage" class="stage-action" type="button" hidden>保存演奏页</button>
+          </div>
+          <div class="band" id="band"></div>
+        </section>
+
+        <aside class="mixer" aria-label="Track mixer">
+          <header class="mixer-header">
+            <div class="status-row">
+              <span id="stateDot" class="state-dot"></span>
+              <span id="stateText">等待播放</span>
+            </div>
+            <div id="shareUrl" class="share-url" hidden></div>
+            <div class="transport">
+              <button id="playPause" class="transport-button" type="button" aria-label="播放或暂停">
+                <span id="playIcon">▶</span>
+              </button>
+              <input id="timeline" class="timeline" type="range" min="0" max="1" value="0" step="0.001" aria-label="播放进度" />
+              <span id="timeText" class="time-text">0:00</span>
+            </div>
+          </header>
+
+          <div class="global-controls">
+            <label class="slider-row revoice-row">
+              <span>变声模型</span>
+              <select id="editRvcModelSelect" class="model-select">
+                <option value="Charlie Brown.pth">Charlie Brown</option>
+              </select>
+              <button id="revoiceVocals" class="compact-action" type="button">仅重新变声</button>
+            </label>
+            <div id="revoiceStatus" class="inline-status" aria-live="polite"></div>
+            <label class="slider-row">
+              <span>轮播速度</span>
+              <input id="frameRate" type="range" min="5" max="18" value="10" step="1" />
+              <output id="frameRateValue">10 fps</output>
+            </label>
+          </div>
+
+          <div id="trackControls" class="track-controls"></div>
+        </aside>
+      </section>
+    </main>
+
+    <template id="performerTemplate">
+      <article class="performer-card">
+        <div class="character-frame">
+          <img class="performer-image" alt="" />
+        </div>
+        <div class="performer-meta">
+          <span class="performer-name"></span>
+          <span class="performer-role"></span>
+        </div>
+        <button class="resize-handle" type="button" aria-label="调整人物大小"></button>
+      </article>
+    </template>
+
+    <template id="trackControlTemplate">
+      <section class="track-strip">
+        <button class="track-toggle" type="button" aria-label="停止该音轨"></button>
+        <div class="track-main">
+          <div class="track-title-row">
+            <span class="track-name"></span>
+            <span class="track-level"></span>
+          </div>
+          <input class="track-volume" type="range" min="0" max="1" value="0.85" step="0.01" />
+          <label class="track-threshold-row">
+            <span>触发</span>
+            <input class="track-threshold" type="range" min="0.002" max="0.12" value="0.035" step="0.001" />
+          </label>
+        </div>
+      </section>
+    </template>
+
+    <script src="./app-config.js"></script>
+    <script src="./performance.js?v=voice-switch-1"></script>
+  </body>
+</html>

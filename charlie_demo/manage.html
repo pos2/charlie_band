@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Band Performance Manager</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./performance.css" />
+  </head>
+  <body>
+    <main class="manager-page">
+      <header class="manager-header">
+        <h1>作品管理</h1>
+        <button id="refreshManager" class="compact-action" type="button">刷新</button>
+      </header>
+
+      <section class="manager-section">
+        <h2>已保存作品</h2>
+        <div id="performanceList" class="manager-list"></div>
+      </section>
+
+      <section class="manager-section">
+        <h2>处理产物</h2>
+        <div id="jobList" class="manager-list"></div>
+      </section>
+
+      <section class="manager-section">
+        <h2>模型管理</h2>
+        <form id="modelImportForm" class="manager-tools">
+          <input id="modelFolderPath" type="text" placeholder="/Users/pos2/Downloads/sza" />
+          <button class="compact-action" type="submit">导入模型文件夹</button>
+        </form>
+        <div id="modelImportStatus" class="inline-status" aria-live="polite"></div>
+        <div id="modelList" class="manager-list"></div>
+      </section>
+    </main>
+
+    <script src="./app-config.js"></script>
+    <script src="./manage.js"></script>
+  </body>
+</html>

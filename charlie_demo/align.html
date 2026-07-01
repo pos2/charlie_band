@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Character Alignment Tool</title>
+    <link rel="stylesheet" href="./align.css" />
+  </head>
+  <body>
+    <main class="align-app">
+      <section class="workspace">
+        <div class="canvas-toolbar">
+          <div class="segmented" id="characterTabs"></div>
+          <div class="view-toggles">
+            <label><input id="onionToggle" type="checkbox" checked /> 叠加参考</label>
+            <label><input id="transparentToggle" type="checkbox" /> 看生成素材</label>
+          </div>
+        </div>
+
+        <div class="canvas-shell">
+          <div class="alignment-canvas" id="alignmentCanvas">
+            <img id="referenceFrame" class="frame-image reference-frame" alt="" />
+            <img id="activeFrame" class="frame-image active-frame" alt="" />
+            <div class="crosshair horizontal"></div>
+            <div class="crosshair vertical"></div>
+          </div>
+        </div>
+
+        <div class="frame-strip" id="frameStrip"></div>
+      </section>
+
+      <aside class="panel">
+        <header class="panel-header">
+          <div>
+            <strong id="panelTitle">对齐</strong>
+            <span id="panelSubtitle"></span>
+          </div>
+          <button id="resetFrame" type="button">重置帧</button>
+        </header>
+
+        <label class="toggle-row">
+          <span>去白底</span>
+          <input id="removeBackground" type="checkbox" />
+        </label>
+
+        <label class="slider-row">
+          <span>X 偏移</span>
+          <input id="offsetX" type="range" min="-120" max="120" value="0" step="1" />
+          <output id="offsetXValue">0</output>
+        </label>
+
+        <label class="slider-row">
+          <span>Y 偏移</span>
+          <input id="offsetY" type="range" min="-120" max="120" value="0" step="1" />
+          <output id="offsetYValue">0</output>
+        </label>
+
+        <div class="nudges">
+          <button data-nudge="0,-1" type="button">↑</button>
+          <button data-nudge="-1,0" type="button">←</button>
+          <button data-nudge="1,0" type="button">→</button>
+          <button data-nudge="0,1" type="button">↓</button>
+        </div>
+
+        <div class="actions">
+          <button id="processFrames" type="button">导出方框内素材</button>
+        </div>
+
+        <pre id="statusLog" class="status-log">准备就绪</pre>
+      </aside>
+    </main>
+
+    <script src="./align.js"></script>
+  </body>
+</html>

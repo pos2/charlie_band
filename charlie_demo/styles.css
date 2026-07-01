@@ -1,0 +1,485 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f6f4ef;
+  color: #272822;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app {
+  height: 100vh;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(680px, 1fr) 390px;
+  overflow: hidden;
+}
+
+.stage {
+  position: relative;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.1), rgba(241, 238, 230, 0.18)),
+    url("./assets/background/stage.png") center / cover no-repeat,
+    #f1eee6;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 4%;
+  height: 22%;
+  background: radial-gradient(ellipse at center, rgba(38, 34, 28, 0.12), transparent 68%);
+  pointer-events: none;
+}
+
+.stage-light {
+  position: absolute;
+  top: -12%;
+  width: 36%;
+  height: 58%;
+  opacity: 0.16;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(245, 195, 87, 0.48), transparent 64%);
+}
+
+.stage-light-left {
+  left: -8%;
+}
+
+.stage-light-right {
+  right: -8%;
+}
+
+.stage-actions {
+  position: absolute;
+  z-index: 4;
+  top: 18px;
+  left: 18px;
+  display: flex;
+  gap: 8px;
+}
+
+.stage-action {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #d4cdbf;
+  border-radius: 7px;
+  background: #fffefa;
+  color: #2f332c;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(45, 40, 32, 0.08);
+}
+
+.band {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 1060px);
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.performer-card {
+  position: absolute;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  width: clamp(128px, 15vw, 196px);
+  transition:
+    opacity 160ms ease,
+    filter 160ms ease,
+    transform 160ms ease;
+}
+
+.performer-card.is-disabled {
+  opacity: 0.42;
+  filter: grayscale(0.5);
+}
+
+.performer-card.is-draggable {
+  cursor: grab;
+  outline: 1px dashed rgba(201, 95, 59, 0.7);
+  outline-offset: 5px;
+}
+
+.performer-card.is-dragging {
+  cursor: grabbing;
+  z-index: 20;
+}
+
+.performer-card.is-resizing {
+  z-index: 21;
+}
+
+.band.is-editing .performer-card {
+  touch-action: none;
+}
+
+.character-frame {
+  display: grid;
+  place-items: end center;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+
+.performer-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+  filter: drop-shadow(0 18px 20px rgba(45, 40, 32, 0.18));
+  user-select: none;
+}
+
+.performer-meta {
+  display: none;
+  justify-items: center;
+  gap: 2px;
+  min-height: 36px;
+  color: #45483f;
+}
+
+.performer-name {
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.performer-role {
+  font-size: 11px;
+  color: #77766b;
+}
+
+.resize-handle {
+  position: absolute;
+  right: -12px;
+  bottom: 22px;
+  display: none;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #c95f3b;
+  border-radius: 50%;
+  background: #fffefa;
+  cursor: nwse-resize;
+  box-shadow: 0 6px 12px rgba(45, 40, 32, 0.16);
+}
+
+.resize-handle::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-right: 2px solid #c95f3b;
+  border-bottom: 2px solid #c95f3b;
+}
+
+.band.is-editing .resize-handle {
+  display: block;
+}
+
+.slot-vocal {
+  left: 42%;
+  bottom: 7%;
+  width: clamp(142px, 15vw, 190px);
+  z-index: 5;
+}
+
+.slot-drums {
+  left: 35%;
+  bottom: 43%;
+  width: clamp(160px, 17vw, 220px);
+  z-index: 1;
+}
+
+.slot-guitar {
+  left: 8%;
+  bottom: 9%;
+  width: clamp(160px, 17vw, 214px);
+  z-index: 4;
+}
+
+.slot-bass {
+  right: 8%;
+  bottom: 10%;
+  width: clamp(158px, 16vw, 210px);
+  z-index: 4;
+}
+
+.slot-dj {
+  right: 3%;
+  bottom: 45%;
+  width: clamp(142px, 16vw, 200px);
+  z-index: 2;
+}
+
+.mixer {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100vh;
+  min-height: 0;
+  overflow: auto;
+  padding: 28px;
+  border-left: 1px solid #ded8ca;
+  background: #fffefa;
+}
+
+.mixer-header,
+.global-controls,
+.track-controls {
+  display: grid;
+  gap: 14px;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 26px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.state-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #a7aaa1;
+  box-shadow: 0 0 0 4px rgba(167, 170, 161, 0.16);
+}
+
+.state-dot.playing {
+  background: #da5b38;
+  box-shadow: 0 0 0 6px rgba(218, 91, 56, 0.14);
+}
+
+.transport {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 54px;
+  align-items: center;
+  gap: 12px;
+}
+
+.transport-button,
+.track-toggle {
+  display: grid;
+  place-items: center;
+  border: 1px solid #d4cdbf;
+  background: #fbfaf6;
+  color: #2f332c;
+  cursor: pointer;
+}
+
+.transport-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.timeline,
+.track-volume,
+.track-threshold,
+.slider-row input {
+  width: 100%;
+  min-width: 0;
+  accent-color: #d45f3b;
+}
+
+.time-text {
+  font-size: 12px;
+  color: #6d6d63;
+  font-variant-numeric: tabular-nums;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) 56px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #4f524a;
+}
+
+.slider-row span {
+  font-weight: 700;
+}
+
+.slider-row output {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #74766b;
+}
+
+.track-controls {
+  gap: 10px;
+}
+
+.track-strip {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 8px;
+  border: 1px solid #e1dccf;
+  border-radius: 8px;
+  background: #fbfaf6;
+}
+
+.track-strip.has-voice-switch {
+  grid-template-columns: 48px auto minmax(0, 1fr);
+}
+
+.track-main {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.track-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 18px;
+  font-size: 12px;
+}
+
+.track-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+  color: #3f433b;
+}
+
+.track-level {
+  min-width: 22px;
+  text-align: right;
+  color: #9a735f;
+  font-variant-numeric: tabular-nums;
+}
+
+.track-threshold-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #74766b;
+}
+
+.track-toggle {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #ebe6db;
+  border-radius: 50%;
+  font-size: 13px;
+  background: #fffefa;
+  box-shadow: 0 3px 10px rgba(45, 40, 32, 0.15);
+  cursor: pointer;
+}
+
+.track-toggle.is-off {
+  color: #8e9188;
+  background: #d7d7d7;
+  box-shadow: none;
+}
+
+.track-toggle-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 980px) {
+  .app {
+    height: auto;
+    min-height: 100vh;
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .stage {
+    height: 70vh;
+    min-height: 70vh;
+  }
+
+  .band {
+    height: 70vh;
+    min-height: 70vh;
+  }
+
+  .mixer {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+    border-left: 0;
+    border-top: 1px solid #ded8ca;
+  }
+
+  .slot-drums {
+    bottom: 38%;
+  }
+}
+
+@media (max-width: 640px) {
+  .stage {
+    height: 62vh;
+    min-height: 62vh;
+  }
+
+  .band {
+    height: 62vh;
+    min-height: 62vh;
+  }
+
+  .performer-card {
+    width: 30vw;
+  }
+
+  .slot-vocal {
+    left: 35%;
+    width: 34vw;
+  }
+
+  .slot-drums {
+    left: 31%;
+    width: 38vw;
+  }
+
+  .slot-dj {
+    right: 2%;
+    width: 33vw;
+  }
+
+  .slot-guitar {
+    left: 2%;
+    width: 32vw;
+  }
+
+  .slot-bass {
+    right: 1%;
+    width: 32vw;
+  }
+}
