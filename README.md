@@ -135,6 +135,51 @@ charlie_demo/public_export/
 
 The export helper copies the required performance JSON, media files, frontend files, and static assets. It also records cached voice-switch audio when available.
 
+## Cloudflare Pages Publishing
+
+The recommended public hosting target is Cloudflare Pages:
+
+```text
+Project: charlie-band
+Domain:  band.pos2.fun
+```
+
+This uses Pages direct upload, so generated audio and performance assets do not need to be committed to GitHub.
+
+First-time setup:
+
+```sh
+cd /Users/pos2/Documents/audio
+npm_config_cache=/Users/pos2/Documents/audio/.npm-cache npx wrangler login
+npm_config_cache=/Users/pos2/Documents/audio/.npm-cache npx wrangler pages project create charlie-band --production-branch=main
+```
+
+In the Cloudflare dashboard, add `band.pos2.fun` as a custom domain for the `charlie-band` Pages project.
+
+Publish one saved performance:
+
+```sh
+cd /Users/pos2/Documents/audio/charlie_demo
+./publish_cloudflare.sh <performance_id>
+```
+
+The published URL will be:
+
+```text
+https://band.pos2.fun/performance.html?id=<performance_id>
+```
+
+List local and exported performances:
+
+```sh
+cd /Users/pos2/Documents/audio/charlie_demo
+./list_performances.sh
+```
+
+Rows marked `exported` are already present in `public_export/` and have a public URL. Rows marked `local-only` have been saved locally but have not been exported into the current upload bundle yet.
+
+Cloudflare Pages has a 25 MiB limit per uploaded static asset on the free plan, so exported MP3 tracks should stay below that size.
+
 ## VPS Publishing
 
 Configure `charlie_demo/deploy.env` with your remote target, then run:

@@ -4,6 +4,9 @@ __pycache__/
 
 .venv*/
 .venv-audio-separator/
+.npm-cache/
+.wrangler/
+**/.wrangler/
 
 RVC_input/
 RVC_output/
