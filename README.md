@@ -4,6 +4,10 @@ Charlie Band is a local audio-to-performance prototype. It separates an input so
 
 The repository is intended to store the application code only. Large generated assets, model weights, separated audio, converted vocals, and exported performances are kept out of Git.
 
+## Preview
+
+[Open the live performance preview](https://band.pos2.fun/performance.html?id=3d86f226999b)
+
 ## What It Does
 
 - Upload an audio file from the maker page.
